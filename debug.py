@@ -22,11 +22,19 @@ def debug():
     point2 = Point(0, 6)
     point3 = Point(6, 0)
     point4 = Point(6, 6)
-    point5 = Point(8, 3)
+    point5 = Point(1, 3)
+    point6 = Point(2, 1)
+    point7 = Point(4, 3)
+    point8 = Point(5, 1)
     
     point_set = [point1, point2, point3, point4]
     print gift_wrap(point_set)
     
+    point_set2 = [point5, point6, point7, point8]
+    print gift_wrap(point_set2)
+    quad = deconstruct_quad(reorient_quad(gift_wrap(point_set2)))
+    print aspect_ratio(quad)
+    print skew(quad)
     
         
     '''

@@ -13,6 +13,7 @@ class Point(object):
     def __eq__(self, other):
         return self.x == other.x and self.y == other.y
         
+
 class Line(object):
     def __init__(self, p1, p2):
         self.point1 = p1
@@ -27,6 +28,9 @@ class Line(object):
         string = "(" + str(self.point1.x) + "," +str(self.point1.y) + ")"
         string += " and (" + str(self.point2.x) + "," + str(self.point2.y) + ")"
         return string
+
+    def __eq__(self, other):
+        return self.point1 == other.point1 and self.point2 == other.point2
 
 
 def cross_product(line1, line2):
@@ -46,11 +50,12 @@ def gift_wrap(point_list):
     initPoint = sorted_list[0]
     
     while len(polygon) == 0 or polygon[len(polygon) - 1].point2 != initPoint:
+        '''
         if len(polygon) == 0: 
             print sorted_list[0]
         else:
             print polygon[len(polygon) - 1].point2
-        
+        '''
         
         if len(sorted_list) == 1: 
             finalLine = Line(sorted_list[0], initPoint)
@@ -96,5 +101,53 @@ def gift_wrap(point_list):
         polygon.append(tentativeLine)
             
     
-    return polygon        
-    
+    return polygon
+
+def reorient_quad(line_list):
+    return_list = []
+
+    for line in reversed(line_list):
+        return_list.append(Line(line.point2, line.point1))
+    return_list.append(return_list.pop(0))
+
+
+    return return_list
+
+def deconstruct_quad(line_list):
+    point_list = list()
+    for line in line_list:
+        point_list.append(line.point1)
+        
+    return point_list
+
+
+def aspect_ratio(point_list):
+    #refer to CRE method of element testing paper for formula
+    #equation 8 and 11 to be exact
+
+    e2 = 0.0
+    e2 += point_list[1].x + point_list[2].x
+    e2 -= point_list[0].x + point_list[3].x
+    e2 /= 4
+    f3 = 0.0
+    f3 += point_list[2].y + point_list[3].y
+    f3 -= point_list[0].y + point_list[1].y
+    f3 /= 4
+
+    return max(e2/f3, f3/e2)
+
+def skew(point_list):
+    #refer to CRE method of element testing paper for formula
+    #equation 8 and 12
+
+    e3 = 0.0
+    e3 += point_list[2].x + point_list[3].x
+    e3 -= point_list[0].x + point_list[1].x
+    f3 = 0.0
+    f3 += point_list[2].y + point_list[3].y
+    f3 -= point_list[0].y + point_list[1].y
+
+    return e3/(f3*4)
+
+
+
